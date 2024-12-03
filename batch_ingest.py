@@ -20,16 +20,6 @@ def ingest_data():
     data = pdr.get_data_yahoo(tickers, start=start_date, end=end_date)
 
 
-    # Adding noise to the Data to simulate a noisy dataset
-    # NaN values and outliers
-    for col in data.columns:
-        data.loc[data.sample(frac=0.1).index, col] = np.nan
-        data.loc[data.sample(frac=0.005).index, col] = 1000
-        data.loc[data.sample(frac=0.005).index, col] = 0
-
-    # Duplicate values
-    data = pd.concat([data, data.sample(frac=0.1)])
-
     # s3 = S3FileSystem()
     # # S3 bucket directory
     # DIR = 's3://ece5984-s3-zhenz/Project/'                    # insert your S3 URI here
